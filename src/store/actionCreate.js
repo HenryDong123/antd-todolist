@@ -1,5 +1,9 @@
-import {ADD_LIST_ITEM, CHANGE_INPUT_VALUE, DELETE_ITEM} from "./actionTypes";
-
+import {ADD_LIST_ITEM, CHANGE_INPUT_VALUE, DELETE_ITEM, INIT_LIST} from "./actionTypes";
+export const initListAction = (data) =>({
+				type: INIT_LIST,
+				data
+		}
+)
 export const getInputChangeAction = (value) =>({
         type: CHANGE_INPUT_VALUE,
         value
