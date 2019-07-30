@@ -1,9 +1,8 @@
 import React, {Component} from 'react'
 import './item.css'
 import store from './store'
-import axios from 'axios'
 import TodoListUi from './TodoListUi'
-import {addListAction, deleteItemAction, getInputChangeAction, initListAction} from "./store/actionCreate";
+import {addListAction, deleteItemAction, getInputChangeAction, getTodoList} from "./store/actionCreate";
 class TodoList extends Component{
     constructor(props){
         super(props)
@@ -23,12 +22,8 @@ class TodoList extends Component{
                     deleteItem={this.deleteItem} />
     }
     componentDidMount() {
-    		axios.get('../mock/todoList.json').then(res => {
-				    const data = res.data
-				    const action = initListAction(data)
-				    store.dispatch(action)
-		    })
-
+			const action = getTodoList()
+			store.dispatch(action)
     }
 
 		storeChange(){
