@@ -1,15 +1,20 @@
 import React, {Component} from 'react'
 import {Input, List} from 'antd'
 import './item.css'
+import store from './store'
+import {addListAction, deleteItemAction, getInputChangeAction} from "./store/actionCreate";
 const { Search } = Input;
 class TodoList extends Component{
     constructor(props){
         super(props)
-        this.state = {
-            itemList: [],
-            inputValue: '',
-            isToggle: false
-        }
+        // this.state = {
+        //     itemList: [],
+        //     inputValue: '',
+        //     isToggle: false
+        // }
+        this.state = store.getState()
+        this.storeChange = this.storeChange.bind(this)
+        store.subscribe(this.storeChange)
         this.addItem = this.addItem.bind(this)
         this.handleInput = this.handleInput.bind(this)
     }
@@ -20,8 +25,9 @@ class TodoList extends Component{
                 <List
                     bordered
                     dataSource={this.state.itemList}
+                    style={{width: '300px', margin: '-20px auto'}}
                     renderItem={(item, index) => (
-                        <List.Item className={"item" + (this.state.isToggle? ' active': '')} onClick={() => {this.deleteItem()}}>
+                        <List.Item className={"item" + (this.state.isToggle? ' active': '')} onClick={this.deleteItem.bind(this, index)}>
                             {item}
                         </List.Item>
                     )}
@@ -29,29 +35,27 @@ class TodoList extends Component{
             </div>
         )
     }
-
+    storeChange(){
+        this.setState(store.getState())
+    }
     handleInput(e) {
         const val = e.target.value
-        this.setState(()=> ({
-            inputValue: val
-        }))
+        const action = getInputChangeAction(val)
+        store.dispatch(action)
     }
     addItem(e){
-        this.setState((prevState) => ({
-            itemList: [...prevState.itemList, prevState.inputValue],
-            inputValue: ''
-        }))
+       const action = addListAction()
+       store.dispatch(action)
     }
-    deleteItem(){
+    deleteItem(index){
         // this.setState((prevState)=>{
         //     const itemList = prevState.itemList
         //     itemList.splice(index, 1)
         //     return {itemList}
         // })
         // return el.style.textDecoration= 'line-through'
-        this.setState((prevState) => ({
-            isToggle: !prevState.isToggle
-        }))
+        const action = deleteItemAction(index)
+        store.dispatch(action)
     }
 }
 

@@ -1,7 +1,5 @@
 .item {
-	display: flex!important;
 	position: relative;
-	justify-content: center;
 }
 .item.active{
 	text-decoration: line-through!important;
