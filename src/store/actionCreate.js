@@ -1,4 +1,10 @@
-import {ADD_LIST_ITEM, CHANGE_INPUT_VALUE, DELETE_ITEM, INIT_LIST} from "./actionTypes";
+import {
+		ADD_LIST_ITEM,
+		CHANGE_INPUT_VALUE,
+		DELETE_ITEM,
+		GET_INIT_LIST,
+		INIT_LIST,
+} from "./actionTypes";
 import axios from "axios";
 import store from "./index";
 export const initListAction = (data) =>({
@@ -20,6 +26,9 @@ export const deleteItemAction = (value) =>({
         value
     }
 )
+export const getInitList = () => ({
+		type: GET_INIT_LIST
+})
 export  const getTodoList = () => {
 		return () => {
 				axios.get('../mock/todoList.json').then(res => {
